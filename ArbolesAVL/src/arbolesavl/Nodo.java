@@ -3,19 +3,51 @@ package arbolesavl;
 
 public class Nodo {
   
-    int valor;
-    int factorBalance;
+    private int valor;
+    private int peso;
     
-    Nodo izquierdo;
-    Nodo derecho;
+    private Nodo izquierdo;
+    private Nodo derecho;
     
     Nodo(int n){
         
         this.valor = n;
-        this.factorBalance = 0;
+        this.peso = 1;
         this.izquierdo = null;
         this.derecho   = null;
         
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+
+    public int getPeso() {
+        return peso;
+    }
+
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }
+
+    public Nodo getIzquierdo() {
+        return izquierdo;
+    }
+
+    public void setIzquierdo(Nodo izquierdo) {
+        this.izquierdo = izquierdo;
+    }
+
+    public Nodo getDerecho() {
+        return derecho;
+    }
+
+    public void setDerecho(Nodo derecho) {
+        this.derecho = derecho;
     }
     
 }

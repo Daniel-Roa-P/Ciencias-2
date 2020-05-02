@@ -63,6 +63,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         botonInsertar.addActionListener(this);
         botonRetirar.addActionListener(this);
         botonDibujar.addActionListener(this);
+        botonCrear.addActionListener(this);
         
         label.setBounds(20, 25, 200, 20);
         label2.setBounds(20, 50, 200, 20);
@@ -89,8 +90,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource() == botonCrear){
-        
-            
     
         } else if (e.getSource() == botonInsertar){
         
