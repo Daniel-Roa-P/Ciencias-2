@@ -2,7 +2,7 @@ package arbolesavl;
 
 class Arbol {
     
-    Nodo raiz;
+    Nodo raiz = null;
     
     public Nodo insertar(Nodo nodo, int valor){
         
@@ -13,16 +13,14 @@ class Arbol {
         }
         
         int valorRaiz = nodo.getValor();
-        Nodo nodoIzq  = nodo.getIzquierdo();
-        Nodo nodoDer  = nodo.getDerecho();
         
         if(valor < valorRaiz){
             
-            nodo.setIzquierdo(insertar(nodoIzq, valor));
+            nodo.setIzquierdo(insertar(nodo.getIzquierdo(), valor));
             
         } else if(valor > valorRaiz){
         
-            nodo.setDerecho(insertar(nodoDer, valor));
+            nodo.setDerecho(insertar(nodo.getDerecho(), valor));
             
         } else {
         
@@ -30,21 +28,64 @@ class Arbol {
         
         }
         
-        nodo.setPeso( 1 + pesoMaximo( nodoIzq.getPeso(), nodoDer.getPeso() ) );
+        nodo.setPeso(1 + pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())));
         
-        int balance = calcularBalance(nodo, nodoIzq, nodoDer);
+        int balance = calcularBalance(nodo, nodo.getIzquierdo(), nodo.getDerecho());
         
-        if( balance > 1 && valor < nodoIzq.getValor() ){
+        nodo.setBalance(balance);
+
         
-        } else if ( balance < -1 && valor > nodoDer.getValor() ){
+        if( balance > 1 && valor < nodo.getIzquierdo().getValor() ){
         
-        } else if ( balance > 1 && valor > nodoIzq.getValor() ){
+            return rotarDerecha(nodo);
+            
+        } else if ( balance < -1 && valor > nodo.getDerecho().getValor() ){
+            
+            return rotarIzquierda(nodo);
+            
+        } else if ( balance > 1 && valor > nodo.getIzquierdo().getValor() ){
         
-        } else if ( balance < -1 && valor < nodoDer.getValor() ){
+            nodo.setIzquierdo(rotarIzquierda(nodo.getIzquierdo()));
+            return rotarDerecha(nodo);
+            
+        } else if ( balance < -1 && valor < nodo.getDerecho().getValor() ){
         
+            nodo.setDerecho(rotarDerecha(nodo.getDerecho()));
+            return rotarIzquierda(nodo);
+            
         }
         
         return nodo;
+        
+    }
+
+    private Nodo rotarDerecha(Nodo nodo) {
+    
+        Nodo Hijo = nodo.getIzquierdo();
+        Nodo Nieto = Hijo.getDerecho();
+        
+        Hijo.setDerecho(nodo);
+        nodo.setIzquierdo(Nieto);
+        
+        nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
+        Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
+        
+        return Hijo;
+        
+    }
+    
+    private Nodo rotarIzquierda(Nodo nodo) {
+        
+        Nodo Hijo = nodo.getDerecho();
+        Nodo Nieto = Hijo.getIzquierdo();
+        
+        Hijo.setIzquierdo(nodo);
+        nodo.setDerecho(Nieto);
+        
+        nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
+        Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
+        
+        return Hijo;
         
     }
     
@@ -72,4 +113,32 @@ class Arbol {
         return obtenerPeso(izq) - obtenerPeso(der); 
         
     }
+
+    int nivel = 0;
+    int max = 0;
+    
+    void printInorder(Nodo nodo) 
+    { 
+        if (nodo == null){ 
+            return; 
+        }
+        
+        nivel++;
+        printInorder(nodo.getIzquierdo()); 
+        nivel--;
+        
+        System.out.print(nodo.getValor() + ","); 
+  
+        if(nivel > max){
+        
+            max = nivel;
+            
+        }
+        
+        nivel++;
+        printInorder(nodo.getDerecho()); 
+        nivel--;
+
+    } 
+    
 }

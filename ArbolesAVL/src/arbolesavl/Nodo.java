@@ -5,6 +5,7 @@ public class Nodo {
   
     private int valor;
     private int peso;
+    private int balance;
     
     private Nodo izquierdo;
     private Nodo derecho;
@@ -48,6 +49,14 @@ public class Nodo {
 
     public void setDerecho(Nodo derecho) {
         this.derecho = derecho;
+    }
+    
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
     
 }
