@@ -231,15 +231,21 @@ class Arbol {
     int nivel = 0;
     int max = 0;
     
-    void printInorder(Nodo nodo) 
-    { 
+    String cadena="";
+    String cadena2="";
+    String cadena3="";
+    
+    String printInorder(Nodo nodo){
+        
         if (nodo == null){ 
-            return; 
+            return ""; 
         }
         
         nivel++;
         printInorder(nodo.getIzquierdo()); 
         nivel--;
+        
+        cadena = cadena + nodo.getValor() +", ";
         
         if(nivel > max){
         
@@ -250,7 +256,41 @@ class Arbol {
         nivel++;
         printInorder(nodo.getDerecho()); 
         nivel--;
+        
+        return cadena;
+        
+    } 
+    
+    String printPostOrder(Nodo nodo){
+        
+        if (nodo == null){ 
+            return ""; 
+        }
 
+        printPostOrder(nodo.getIzquierdo()); 
+        
+        printPostOrder(nodo.getDerecho()); 
+        
+        cadena2 = cadena2 + nodo.getValor() +", ";
+        
+        return cadena2;
+        
+    } 
+    
+    String printPreOrder(Nodo nodo){
+        
+        if (nodo == null){ 
+            return ""; 
+        }
+        
+        cadena3 = cadena3 + nodo.getValor() +", ";
+        
+        printPreOrder(nodo.getIzquierdo()); 
+        
+        printPreOrder(nodo.getDerecho()); 
+        
+        return cadena3;
+        
     } 
     
     public Nodo getRaiz() {

@@ -28,9 +28,16 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public JLabel label3 = new JLabel("-1 = Azul");
     public JLabel label4 = new JLabel(" 1 = Rojo");
     public JLabel label5 = new JLabel("Ingresar numero(s) que desea añadir");
+    public JLabel label6 = new JLabel("Recorrido Preorden: ");
+    public JLabel label7 = new JLabel("Recorrido Inorden: ");
+    public JLabel label8 = new JLabel("Recorrido Posorden: ");
+    
     
     public JTextField tfIngreso = new JTextField("10,20,30,40,50,60,70,80,90,100");
     public JTextField tfRetiro = new JTextField("20,50,90");
+    public JTextField preOrden = new JTextField();
+    public JTextField inOrden = new JTextField();
+    public JTextField posOrden = new JTextField();
     
     private Arbol arbol; 
     private List <Nodo> listaArbol = new ArrayList();
@@ -58,16 +65,22 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         c.add(label3);
         c.add(label4);
         c.add(label5);
-    
+        c.add(label6);
+        c.add(label7);
+        c.add(label8);
+        
         c.add(tfIngreso);
         c.add(tfRetiro);
+        c.add(preOrden);
+        c.add(inOrden);
+        c.add(posOrden);
         
         c.add(botonInsertar);
         c.add(botonRetirar);
         c.add(botonDibujar);
         c.add(botonCrear);
         
-        jpan=new JPanel();
+        jpan= new JPanel();       
         jpan.setBounds(0, 200, 1300, 500);
         jpan.setOpaque(true);
         jpan.setBackground(Color.LIGHT_GRAY);
@@ -85,9 +98,15 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         label4.setBounds(20, 100, 200, 20);
         label4.setForeground(Color.RED);
         label5.setBounds(900, 25, 300, 20);
+        label6.setBounds(300, 50, 200, 20);
+        label7.setBounds(300, 75, 200, 20);
+        label8.setBounds(300, 100, 200, 20);
         
         tfIngreso.setBounds(900, 50, 210, 20);
         tfRetiro.setBounds(900, 75, 210, 20);
+        preOrden.setBounds(450, 50, 350, 20);
+        inOrden.setBounds(450, 75, 350, 20);
+        posOrden.setBounds(450, 100, 350, 20);
         
         botonInsertar.setBounds(1125, 50, 145, 20);
         botonInsertar.setBackground(Color.green);
@@ -209,9 +228,19 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     }
     
     void dibujar(){
-    
-        tree.printInorder(tree.getRaiz());
-            
+        
+        tree.cadena="";
+        inOrden.removeAll();
+        inOrden.setText(tree.printInorder(tree.getRaiz()));
+        
+        tree.cadena2="";
+        posOrden.removeAll();
+        posOrden.setText(tree.printPostOrder(tree.getRaiz()));
+        
+        tree.cadena3="";
+        preOrden.removeAll();
+        preOrden.setText(tree.printPreOrder(tree.getRaiz()));
+        
         List <Nodo> lista = new ArrayList();
         lista.add(tree.getRaiz());
         listaArbol = new ArrayList();
