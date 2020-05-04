@@ -4,6 +4,7 @@ package arbolesavl;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -32,11 +34,12 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     
     private Arbol arbol; 
     private final List <Nodo> listaArbol = new ArrayList();
+    JPanel jpan;
     
     public static void main(String[] args) {
      
         ArbolesAVL arbolesAvl = new ArbolesAVL();
-        arbolesAvl.setSize(700, 700);
+        arbolesAvl.setSize(1300, 700);
         arbolesAvl.setTitle("Arboles AVL");
         arbolesAvl.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         arbolesAvl.setVisible(true);
@@ -45,7 +48,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
 
     public ArbolesAVL(){
         
-        Container c=getContentPane();
+        Container c = getContentPane();
         c.setLayout(null);
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
         
@@ -63,6 +66,12 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         c.add(botonDibujar);
         c.add(botonCrear);
         
+        jpan=new JPanel();
+        jpan.setBounds(0, 200, 1300, 500);
+        jpan.setOpaque(true);
+        jpan.setBackground(Color.LIGHT_GRAY);
+        add(jpan);
+        
         botonInsertar.addActionListener(this);
         botonRetirar.addActionListener(this);
         botonDibujar.addActionListener(this);
@@ -74,18 +83,18 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         label3.setForeground(Color.BLUE);
         label4.setBounds(20, 100, 200, 20);
         label4.setForeground(Color.RED);
-        label5.setBounds(300, 25, 300, 20);
+        label5.setBounds(900, 25, 300, 20);
         
-        tfIngreso.setBounds(300, 50, 210, 20);
-        tfRetiro.setBounds(300, 75, 210, 20);
+        tfIngreso.setBounds(900, 50, 210, 20);
+        tfRetiro.setBounds(900, 75, 210, 20);
         
-        botonInsertar.setBounds(525, 50, 145, 20);
+        botonInsertar.setBounds(1125, 50, 145, 20);
         botonInsertar.setBackground(Color.green);
-        botonRetirar.setBounds(525, 75, 145, 20);
+        botonRetirar.setBounds(1125, 75, 145, 20);
         botonRetirar.setBackground(Color.red);
-        botonDibujar.setBounds(300,100,370,20);
+        botonDibujar.setBounds(900,100,370,20);
         botonDibujar.setBackground(Color.yellow);
-        botonCrear.setBounds(525, 25, 145, 20);
+        botonCrear.setBounds(1125, 25, 145, 20);
         botonCrear.setBackground(Color.blue);
     }
     
@@ -141,6 +150,10 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         int exponente = 0;
         int i=0;
         int j=0;
+        int coorX = 630;
+        int coorY = 30;
+        
+        JLabel numeros[]=new JLabel[listaArbol.size()];
         
         while(exponente <= tree.max){
         
@@ -148,23 +161,49 @@ public class ArbolesAVL extends JFrame implements ActionListener {
                 
                 exponente=exponente+1;
                 j=0;
-                System.out.println(" ");
+                coorY = coorY + 50;
+                coorX = (int) ((1260/(Math.pow(2, (exponente + 1)))));
                 
             }
             
-            if(listaArbol.get(i) != null){
+            if(j != 0){
+                coorX = (int) ( coorX + (1260/(Math.pow(2, (exponente) ))) );
+            }
             
-            System.out.print(listaArbol.get(i).getValor() + " ");
+            if(listaArbol.get(i) != null){
+                
+                numeros[i]= new JLabel(Integer.toString(listaArbol.get(i).getValor()));
+                numeros[i].setBounds(coorX, coorY, 30, 30);
+
+                if(listaArbol.get(i).getBalance() == -1){
+
+                    numeros[i].setForeground(Color.BLUE);
+
+                } else if (listaArbol.get(i).getBalance() == 1){
+
+                    numeros[i].setForeground(Color.red);
+
+                } else {
+
+                    numeros[i].setForeground(Color.BLACK);
+
+                }
+
+                jpan.add(numeros[i]);
+            
             
             } else {
-            
-            System.out.print("  ");
-            
+
+                numeros[i]= new JLabel("");
+                jpan.add(numeros[i]);
+
             }
             
             i++;
             j++;
         }
+        
+        jpan.repaint();
         
     }
     
@@ -206,7 +245,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         } else if (e.getSource() == botonDibujar){ 
             
             tree.printInorder(tree.raiz);
-            System.out.println(" ");
             
             List <Nodo> lista = new ArrayList();
             lista.add(tree.raiz);

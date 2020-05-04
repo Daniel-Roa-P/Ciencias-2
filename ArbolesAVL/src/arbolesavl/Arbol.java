@@ -70,6 +70,8 @@ class Arbol {
         nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
         Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
         
+        nodo.setBalance(calcularBalance(nodo, nodo.getIzquierdo(), nodo.getDerecho()));
+        
         return Hijo;
         
     }
@@ -84,6 +86,8 @@ class Arbol {
         
         nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
         Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
+        
+        nodo.setBalance(calcularBalance(nodo, nodo.getIzquierdo(), nodo.getDerecho()));
         
         return Hijo;
         
@@ -126,8 +130,6 @@ class Arbol {
         nivel++;
         printInorder(nodo.getIzquierdo()); 
         nivel--;
-        
-        System.out.print(nodo.getValor() + ","); 
   
         if(nivel > max){
         
