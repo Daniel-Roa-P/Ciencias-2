@@ -29,12 +29,13 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public JLabel label4 = new JLabel(" 1 = Rojo");
     public JLabel label5 = new JLabel("Ingresar numero(s) que desea añadir");
     
-    public JTextField tfIngreso = new JTextField();
-    public JTextField tfRetiro = new JTextField();
+    public JTextField tfIngreso = new JTextField("10,20,30,40,50,60,70,80,90,100");
+    public JTextField tfRetiro = new JTextField("20,50,90");
     
     private Arbol arbol; 
-    private final List <Nodo> listaArbol = new ArrayList();
-    JPanel jpan;
+    private List <Nodo> listaArbol = new ArrayList();
+    private JPanel jpan;
+    private String entrada;
     
     public static void main(String[] args) {
      
@@ -98,7 +99,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         botonCrear.setBackground(Color.blue);
     }
     
-    Arbol tree = new Arbol(); 
+    Arbol tree;
     
     private boolean todoNull(List list) {
         
@@ -155,7 +156,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         
         JLabel numeros[]=new JLabel[listaArbol.size()];
         
-        while(exponente <= tree.max){
+        while(i<listaArbol.size()){
         
             if(j >= Math.pow(2, exponente)){           
                 
@@ -174,7 +175,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
                 
                 numeros[i]= new JLabel(Integer.toString(listaArbol.get(i).getValor()));
                 numeros[i].setBounds(coorX, coorY, 30, 30);
-
+                
                 if(listaArbol.get(i).getBalance() == -1){
 
                     numeros[i].setForeground(Color.BLUE);
@@ -184,7 +185,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
                     numeros[i].setForeground(Color.red);
 
                 } else {
-
+                    
                     numeros[i].setForeground(Color.BLACK);
 
                 }
@@ -207,51 +208,81 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         
     }
     
+    void dibujar(){
+    
+        tree.printInorder(tree.getRaiz());
+            
+        List <Nodo> lista = new ArrayList();
+        lista.add(tree.getRaiz());
+        listaArbol = new ArrayList();
+        listaArbol.add(tree.getRaiz());
+        listarArbol(lista, 0, tree.max);
+        jpan.removeAll();
+
+        pintarArbol();
+    
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource() == botonCrear){            
 
-        tree.raiz = tree.insertar(tree.raiz, 5);
-        tree.raiz = tree.insertar(tree.raiz, 124);
-        tree.raiz = tree.insertar(tree.raiz, 24);
-        tree.raiz = tree.insertar(tree.raiz, 10);
-        tree.raiz = tree.insertar(tree.raiz, 100);
-        tree.raiz = tree.insertar(tree.raiz, 150);
-        tree.raiz = tree.insertar(tree.raiz, 7);
-        tree.raiz = tree.insertar(tree.raiz, 2);
-        tree.raiz = tree.insertar(tree.raiz, 64);
-        tree.raiz = tree.insertar(tree.raiz, 14);
-        tree.raiz = tree.insertar(tree.raiz, 91);
-        tree.raiz = tree.insertar(tree.raiz, 10);
-        tree.raiz = tree.insertar(tree.raiz, 71);
-        tree.raiz = tree.insertar(tree.raiz, 37);
-        tree.raiz = tree.insertar(tree.raiz, 12);
-        tree.raiz = tree.insertar(tree.raiz, 97);
-        tree.raiz = tree.insertar(tree.raiz, 66);
-        tree.raiz = tree.insertar(tree.raiz, 23);
-        tree.raiz = tree.insertar(tree.raiz, 55);
-        tree.raiz = tree.insertar(tree.raiz, 87);
-        tree.raiz = tree.insertar(tree.raiz, 47);
+            tree =  new Arbol(); 
         
-        } else if (e.getSource() == botonInsertar){
+        } else if (e.getSource() == botonInsertar && tree != null){
         
+            entrada = tfIngreso.getText() + " ";
+            
+            String temp="";
+            
+            for(int i=0;i<entrada.length();i++){
+            
+                if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
+                
+                    System.out.print(temp + " ");
+                    tree.setRaiz(tree.insertar(tree.getRaiz(), Integer.parseInt(temp)));
+                    temp = "";
+                    
+                } else {
+                
+                    temp = temp + entrada.substring(i,i+1);
+                    
+                }
+                
+            }
             
             
-        } else if (e.getSource() == botonRetirar){
+            dibujar();
             
+        } else if (e.getSource() == botonRetirar && tree != null){
             
+            entrada = tfRetiro.getText() + " ";
+            
+            String temp="";
+            
+            for(int i=0;i<entrada.length();i++){
+            
+                if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
+                
+                    System.out.print(temp + " ");
+                    tree.setRaiz(tree.retirar(tree.getRaiz(), Integer.parseInt(temp)));
+                    temp = "";
+                    
+                } else {
+                
+                    temp = temp + entrada.substring(i,i+1);
+                    
+                }
+                
+            }
+            
+            System.out.println(listaArbol.size());
+            dibujar();
             
         } else if (e.getSource() == botonDibujar){ 
             
-            tree.printInorder(tree.raiz);
             
-            List <Nodo> lista = new ArrayList();
-            lista.add(tree.raiz);
-            listaArbol.add(tree.raiz);
-            listarArbol(lista, 0, tree.max);
-            
-            pintarArbol();
             
         }
         

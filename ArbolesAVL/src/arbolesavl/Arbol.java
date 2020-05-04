@@ -2,7 +2,7 @@ package arbolesavl;
 
 class Arbol {
     
-    Nodo raiz = null;
+    private Nodo raiz = null;
     
     public Nodo insertar(Nodo nodo, int valor){
         
@@ -30,7 +30,7 @@ class Arbol {
         
         nodo.setPeso(1 + pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())));
         
-        int balance = calcularBalance(nodo, nodo.getIzquierdo(), nodo.getDerecho());
+        int balance = calcularBalance(nodo);
         
         nodo.setBalance(balance);
 
@@ -58,6 +58,102 @@ class Arbol {
         return nodo;
         
     }
+    
+    public Nodo retirar(Nodo nodo, int valor){
+        
+        if (nodo == null){
+            
+            return nodo;
+            
+        }
+
+        if (valor < nodo.getValor()){
+            
+            nodo.setIzquierdo(retirar(nodo.getIzquierdo(),valor)); 
+  
+
+        } else if (valor > nodo.getValor())  {
+            
+            nodo.setDerecho(retirar(nodo.getDerecho(),valor)); 
+   
+        } else {  
+ 
+            if ((nodo.getIzquierdo() == null) || (nodo.getDerecho() == null)){
+                
+                Nodo temporal = null;
+                
+                if (temporal == nodo.getIzquierdo()){  
+                    
+                    temporal = nodo.getDerecho();  
+                
+                } else {
+                    
+                    temporal = nodo.getIzquierdo();  
+  
+                }
+                    
+                if (temporal == null){
+
+                    temporal = nodo;  
+                    nodo = null; 
+                    
+                } else {
+                    
+                    nodo = temporal; 
+                    
+                }
+                
+            } else {  
+   
+                Nodo temp = hallarNodoMenor(nodo.getDerecho());  
+   
+                nodo.setValor(temp.getValor());
+   
+                nodo.setDerecho(retirar(nodo.getDerecho(), temp.getValor()));  
+                
+            }  
+        }  
+
+        if (nodo == null){
+            
+            return nodo;
+        
+        }       
+  
+        nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1);  
+  
+        int balance = calcularBalance(nodo);  
+  
+        if (balance > 1 && calcularBalance(nodo.getIzquierdo()) >= 0){ 
+        
+            return rotarDerecha(nodo);  
+   
+        }
+        
+        if (balance > 1 && calcularBalance(nodo.getIzquierdo()) < 0){  
+            nodo.setIzquierdo(rotarIzquierda(nodo.getIzquierdo()));  
+            return rotarDerecha(nodo);  
+            
+        }  
+  
+        if (balance < -1 && calcularBalance(nodo.getDerecho()) <= 0){  
+         
+            return rotarIzquierda(nodo);
+            
+        }
+
+        if (balance < -1 && calcularBalance(nodo.getDerecho()) > 0){
+            
+            nodo.setDerecho(rotarDerecha(nodo.getDerecho()));    
+            return rotarIzquierda(nodo);  
+        
+        }  
+        
+        nodo.setBalance(calcularBalance(nodo));
+        
+        return nodo;  
+    
+    }  
 
     private Nodo rotarDerecha(Nodo nodo) {
     
@@ -70,7 +166,7 @@ class Arbol {
         nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
         Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
         
-        nodo.setBalance(calcularBalance(nodo, nodo.getIzquierdo(), nodo.getDerecho()));
+        nodo.setBalance(calcularBalance(nodo));
         
         return Hijo;
         
@@ -87,7 +183,7 @@ class Arbol {
         nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
         Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
         
-        nodo.setBalance(calcularBalance(nodo, nodo.getIzquierdo(), nodo.getDerecho()));
+        nodo.setBalance(calcularBalance(nodo));
         
         return Hijo;
         
@@ -99,6 +195,20 @@ class Arbol {
             
     }
     
+    Nodo hallarNodoMenor(Nodo nodo)  {  
+        
+        Nodo temp = nodo;  
+  
+        while (temp.getIzquierdo() != null){  
+        
+            temp = temp.getIzquierdo();  
+  
+        }
+        
+        return temp;  
+        
+    }
+    
     int obtenerPeso(Nodo nodo) { 
         if (nodo == null) 
             return 0; 
@@ -106,7 +216,7 @@ class Arbol {
         return nodo.getPeso(); 
     } 
 
-    int calcularBalance(Nodo nodo, Nodo izq, Nodo der) {
+    int calcularBalance(Nodo nodo) {
         
         if (nodo == null){ 
         
@@ -114,7 +224,7 @@ class Arbol {
             
         }
   
-        return obtenerPeso(izq) - obtenerPeso(der); 
+        return obtenerPeso(nodo.getIzquierdo()) - obtenerPeso(nodo.getDerecho()); 
         
     }
 
@@ -130,7 +240,7 @@ class Arbol {
         nivel++;
         printInorder(nodo.getIzquierdo()); 
         nivel--;
-  
+        
         if(nivel > max){
         
             max = nivel;
@@ -142,5 +252,13 @@ class Arbol {
         nivel--;
 
     } 
+    
+    public Nodo getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(Nodo raiz) {
+        this.raiz = raiz;
+    }
     
 }
