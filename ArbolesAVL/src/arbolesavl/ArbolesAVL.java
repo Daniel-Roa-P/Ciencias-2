@@ -1,10 +1,7 @@
-
-
 package arbolesavl;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,7 +18,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public JButton botonCrear  = new JButton("Crear arbol");
     public JButton botonInsertar = new JButton("Insertar en el arbol");
     public JButton botonRetirar  = new JButton("Retirar del arbol");
-    public JButton botonDibujar  = new JButton("Dibujar Arbol");
     
     public JLabel label  = new JLabel("Indicador de balances (Colores)");
     public JLabel label2 = new JLabel(" 0 = Negro");
@@ -31,7 +27,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public JLabel label6 = new JLabel("Recorrido Preorden: ");
     public JLabel label7 = new JLabel("Recorrido Inorden: ");
     public JLabel label8 = new JLabel("Recorrido Posorden: ");
-    
+    public JLabel label9 = new JLabel("");
     
     public JTextField tfIngreso = new JTextField("10,20,30,40,50,60,70,80,90,100");
     public JTextField tfRetiro = new JTextField("20,50,90");
@@ -68,6 +64,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         c.add(label6);
         c.add(label7);
         c.add(label8);
+        c.add(label9);
         
         c.add(tfIngreso);
         c.add(tfRetiro);
@@ -77,7 +74,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         
         c.add(botonInsertar);
         c.add(botonRetirar);
-        c.add(botonDibujar);
         c.add(botonCrear);
         
         jpan= new JPanel();       
@@ -88,7 +84,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         
         botonInsertar.addActionListener(this);
         botonRetirar.addActionListener(this);
-        botonDibujar.addActionListener(this);
         botonCrear.addActionListener(this);
         
         label.setBounds(20, 25, 200, 20);
@@ -101,6 +96,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         label6.setBounds(300, 50, 200, 20);
         label7.setBounds(300, 75, 200, 20);
         label8.setBounds(300, 100, 200, 20);
+        label9.setBounds(900,100,370,20);
         
         tfIngreso.setBounds(900, 50, 210, 20);
         tfRetiro.setBounds(900, 75, 210, 20);
@@ -112,8 +108,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         botonInsertar.setBackground(Color.green);
         botonRetirar.setBounds(1125, 75, 145, 20);
         botonRetirar.setBackground(Color.red);
-        botonDibujar.setBounds(900,100,370,20);
-        botonDibujar.setBackground(Color.yellow);
         botonCrear.setBounds(1125, 25, 145, 20);
         botonCrear.setBackground(Color.blue);
     }
@@ -259,59 +253,74 @@ public class ArbolesAVL extends JFrame implements ActionListener {
 
             tree =  new Arbol(); 
         
+            label9.setText("Arbol creado");
+            
         } else if (e.getSource() == botonInsertar && tree != null){
-        
+            
             entrada = tfIngreso.getText() + " ";
             
-            String temp="";
+            if(!entrada.equals(" ")){
             
-            for(int i=0;i<entrada.length();i++){
-            
-                if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
-                
-                    System.out.print(temp + " ");
-                    tree.setRaiz(tree.insertar(tree.getRaiz(), Integer.parseInt(temp)));
-                    temp = "";
-                    
-                } else {
-                
-                    temp = temp + entrada.substring(i,i+1);
-                    
+                String temp="";
+
+                for(int i=0;i<entrada.length();i++){
+
+                    if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
+
+                        System.out.print(temp + " ");
+                        tree.setRaiz(tree.insertar(tree.getRaiz(), Integer.parseInt(temp)));
+                        temp = "";
+
+                    } else {
+
+                        temp = temp + entrada.substring(i,i+1);
+
+                    }
+
                 }
+
+                dibujar();
+            
+            } else {
+            
+                label9.setText("Por favor llene los campos");
                 
             }
-            
-            
-            dibujar();
             
         } else if (e.getSource() == botonRetirar && tree != null){
             
             entrada = tfRetiro.getText() + " ";
             
-            String temp="";
             
-            for(int i=0;i<entrada.length();i++){
             
-                if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
-                
-                    System.out.print(temp + " ");
-                    tree.setRaiz(tree.retirar(tree.getRaiz(), Integer.parseInt(temp)));
-                    temp = "";
-                    
-                } else {
-                
-                    temp = temp + entrada.substring(i,i+1);
-                    
+            if(!entrada.equals(" ")){
+            
+                String temp="";
+
+                for(int i=0;i<entrada.length();i++){
+
+                    if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
+
+                        System.out.print(temp + " ");
+                        tree.setRaiz(tree.retirar(tree.getRaiz(), Integer.parseInt(temp)));
+                        temp = "";
+
+                    } else {
+
+                        temp = temp + entrada.substring(i,i+1);
+
+                    }
+
                 }
+
+                System.out.println(listaArbol.size());
+                dibujar();
+                
+                } else {
+            
+                label9.setText("Por favor llene bien los campos");
                 
             }
-            
-            System.out.println(listaArbol.size());
-            dibujar();
-            
-        } else if (e.getSource() == botonDibujar){ 
-            
-            
             
         }
         
