@@ -35,7 +35,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public JTextField inOrden = new JTextField();
     public JTextField posOrden = new JTextField();
     
-    private Arbol arbol; 
+    private Arbol arbol = null; 
     private List <Nodo> listaArbol = new ArrayList();
     private JPanel jpan;
     private String entrada;
@@ -50,6 +50,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         
     }
 
+    @SuppressWarnings("empty-statement")
     public ArbolesAVL(){
         
         Container c = getContentPane();
@@ -76,10 +77,11 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         c.add(botonRetirar);
         c.add(botonCrear);
         
-        jpan= new JPanel();       
+        jpan = new JPanel();       
+        
         jpan.setBounds(0, 200, 1300, 500);
-        jpan.setOpaque(true);
-        jpan.setBackground(Color.LIGHT_GRAY);
+        jpan.setOpaque(false);
+        jpan.setBackground(new Color(0,0,0,0));
         add(jpan);
         
         botonInsertar.addActionListener(this);
@@ -216,6 +218,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
             i++;
             j++;
         }
+
         
         jpan.repaint();
         
@@ -223,15 +226,15 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     
     void dibujar(){
         
-        tree.cadena="";
+        tree.setCadena("");
         inOrden.removeAll();
         inOrden.setText(tree.printInorder(tree.getRaiz()));
         
-        tree.cadena2="";
+        tree.setCadena2("");
         posOrden.removeAll();
         posOrden.setText(tree.printPostOrder(tree.getRaiz()));
         
-        tree.cadena3="";
+        tree.setCadena3("");
         preOrden.removeAll();
         preOrden.setText(tree.printPreOrder(tree.getRaiz()));
         
@@ -239,7 +242,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         lista.add(tree.getRaiz());
         listaArbol = new ArrayList();
         listaArbol.add(tree.getRaiz());
-        listarArbol(lista, 0, tree.max);
+        listarArbol(lista, 0, tree.getMax());
         jpan.removeAll();
 
         pintarArbol();
@@ -266,8 +269,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
                 for(int i=0;i<entrada.length();i++){
 
                     if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
-
-                        System.out.print(temp + " ");
+                        
                         tree.setRaiz(tree.insertar(tree.getRaiz(), Integer.parseInt(temp)));
                         temp = "";
 
@@ -291,8 +293,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
             
             entrada = tfRetiro.getText() + " ";
             
-            
-            
             if(!entrada.equals(" ")){
             
                 String temp="";
@@ -301,7 +301,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
 
                     if(entrada.substring(i,i+1).equals(",")|| entrada.substring(i,i+1).equals(" ")){
 
-                        System.out.print(temp + " ");
                         tree.setRaiz(tree.retirar(tree.getRaiz(), Integer.parseInt(temp)));
                         temp = "";
 
@@ -313,16 +312,20 @@ public class ArbolesAVL extends JFrame implements ActionListener {
 
                 }
 
-                System.out.println(listaArbol.size());
                 dibujar();
                 
                 } else {
             
-                label9.setText("Por favor llene bien los campos");
+                    
+                    label9.setText("Por favor llene bien los campos");
                 
             }
             
-        }
+        } else if (tree == null){
+                
+            label9.setText("El arbol no existe, por favor creelo"); 
+                    
+        } 
         
     }
     

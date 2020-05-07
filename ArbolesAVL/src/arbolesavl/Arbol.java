@@ -3,6 +3,12 @@ package arbolesavl;
 class Arbol {
     
     private Nodo raiz = null;
+    private int nivel = 0;
+    private int max = 0;
+    
+    private String cadena="";
+    private String cadena2="";
+    private String cadena3="";
     
     public Nodo insertar(Nodo nodo, int valor){
         
@@ -227,13 +233,6 @@ class Arbol {
         return obtenerPeso(nodo.getIzquierdo()) - obtenerPeso(nodo.getDerecho()); 
         
     }
-
-    int nivel = 0;
-    int max = 0;
-    
-    String cadena="";
-    String cadena2="";
-    String cadena3="";
     
     String printInorder(Nodo nodo){
         
@@ -300,5 +299,47 @@ class Arbol {
     public void setRaiz(Nodo raiz) {
         this.raiz = raiz;
     }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public String getCadena() {
+        return cadena;
+    }
+
+    public void setCadena(String cadena) {
+        this.cadena = cadena;
+    }
+
+    public String getCadena2() {
+        return cadena2;
+    }
+
+    public void setCadena2(String cadena2) {
+        this.cadena2 = cadena2;
+    }
+
+    public String getCadena3() {
+        return cadena3;
+    }
+
+    public void setCadena3(String cadena3) {
+        this.cadena3 = cadena3;
+    }
+    
+    
     
 }
