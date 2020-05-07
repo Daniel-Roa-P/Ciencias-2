@@ -39,7 +39,6 @@ class Arbol {
         int balance = calcularBalance(nodo);
         
         nodo.setBalance(balance);
-
         
         if( balance > 1 && valor < nodo.getIzquierdo().getValor() ){
         
@@ -161,37 +160,39 @@ class Arbol {
     
     }  
 
-    private Nodo rotarDerecha(Nodo nodo) {
+    private Nodo rotarDerecha(Nodo q) {
     
-        Nodo Hijo = nodo.getIzquierdo();
-        Nodo Nieto = Hijo.getDerecho();
+        Nodo p = q.getIzquierdo();
+        Nodo hijo = p.getDerecho();
         
-        Hijo.setDerecho(nodo);
-        nodo.setIzquierdo(Nieto);
+        p.setDerecho(q);
+        q.setIzquierdo(hijo);
         
-        nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
-        Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
+        q.setPeso(pesoMaximo(obtenerPeso(q.getIzquierdo()), obtenerPeso(q.getDerecho())) + 1); 
+        p.setPeso(pesoMaximo(obtenerPeso(p.getIzquierdo()), obtenerPeso(p.getDerecho())) + 1); 
         
-        nodo.setBalance(calcularBalance(nodo));
+        q.setBalance(calcularBalance(q));
+        p.setBalance(calcularBalance(p));
         
-        return Hijo;
+        return p;
         
     }
     
-    private Nodo rotarIzquierda(Nodo nodo) {
+    private Nodo rotarIzquierda(Nodo q) {
         
-        Nodo Hijo = nodo.getDerecho();
-        Nodo Nieto = Hijo.getIzquierdo();
+        Nodo p = q.getDerecho();
+        Nodo hijo = p.getIzquierdo();
         
-        Hijo.setIzquierdo(nodo);
-        nodo.setDerecho(Nieto);
+        p.setIzquierdo(q);
+        q.setDerecho(hijo);
         
-        nodo.setPeso(pesoMaximo(obtenerPeso(nodo.getIzquierdo()), obtenerPeso(nodo.getDerecho())) + 1); 
-        Hijo.setPeso(pesoMaximo(obtenerPeso(Hijo.getIzquierdo()), obtenerPeso(Hijo.getDerecho())) + 1); 
+        q.setPeso(pesoMaximo(obtenerPeso(q.getIzquierdo()), obtenerPeso(q.getDerecho())) + 1); 
+        p.setPeso(pesoMaximo(obtenerPeso(p.getIzquierdo()), obtenerPeso(p.getDerecho())) + 1); 
         
-        nodo.setBalance(calcularBalance(nodo));
+        q.setBalance(calcularBalance(q));
+        p.setBalance(calcularBalance(p));
         
-        return Hijo;
+        return p;
         
     }
     

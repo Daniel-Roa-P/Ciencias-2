@@ -2,10 +2,13 @@ package arbolesavl;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,8 +38,9 @@ public class ArbolesAVL extends JFrame implements ActionListener {
     public JTextField inOrden = new JTextField();
     public JTextField posOrden = new JTextField();
     
-    private Arbol arbol = null; 
+    private Arbol tree = null; 
     private List <Nodo> listaArbol = new ArrayList();
+    private List <JLabel> numeros= new ArrayList();
     private JPanel jpan;
     private String entrada;
     
@@ -114,8 +118,6 @@ public class ArbolesAVL extends JFrame implements ActionListener {
         botonCrear.setBackground(Color.blue);
     }
     
-    Arbol tree;
-    
     private boolean todoNull(List list) {
         
         for (Object object : list) {
@@ -185,11 +187,49 @@ public class ArbolesAVL extends JFrame implements ActionListener {
             if(j != 0){
                 coorX = (int) ( coorX + (1260/(Math.pow(2, (exponente) ))) );
             }
+        
+            
             
             if(listaArbol.get(i) != null){
                 
                 numeros[i]= new JLabel(Integer.toString(listaArbol.get(i).getValor()));
                 numeros[i].setBounds(coorX, coorY, 30, 30);
+            
+                JLabel img1 = new JLabel();
+                
+                int escala = (int) (280/((Math.pow(2, (exponente)))));
+                
+                if(listaArbol.get(i).getDerecho() != null){
+                
+                    
+                    ImageIcon imgIcon = new ImageIcon(getClass().getResource("flecha.png"));
+                    
+                    Image imgEscalada = imgIcon.getImage().getScaledInstance(escala,30, Image.SCALE_SMOOTH);
+                    Icon iconoEscalado = new ImageIcon(imgEscalada);
+                    img1.setBounds(coorX+20 , coorY + 30, escala, 30);
+                    img1.setIcon(iconoEscalado);
+                    
+                    jpan.add(img1);
+            
+                    
+                } 
+                
+                img1 = new JLabel();
+                
+                if(listaArbol.get(i).getIzquierdo()!= null){
+                
+                    ImageIcon imgIcon = new ImageIcon(getClass().getResource("fder.png"));
+            
+                    Image imgEscalada = imgIcon.getImage().getScaledInstance(escala,30, Image.SCALE_SMOOTH);
+                    Icon iconoEscalado = new ImageIcon(imgEscalada);
+                    img1.setBounds(coorX-escala , coorY + 30, escala, 30);
+                    img1.setIcon(iconoEscalado);
+                    
+                    jpan.add(img1);
+                    
+                }
+                
+            
                 
                 if(listaArbol.get(i).getBalance() == -1){
 
@@ -218,8 +258,7 @@ public class ArbolesAVL extends JFrame implements ActionListener {
             i++;
             j++;
         }
-
-        
+            
         jpan.repaint();
         
     }
